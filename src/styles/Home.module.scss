@@ -1,0 +1,33 @@
+.heading {
+
+  font-size: 3em;
+  font-family: 'Metal Mania', sans-serif;
+  color: transparent;
+  background: linear-gradient(180deg, rgba(143,0,255,1) 43%, rgba(255,255,255,1) 80%);
+  background-clip: text;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+}
+
+.items {
+
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 3em;
+
+  img {
+    width: 100%;
+  }
+
+}
+
+.itemTitle {
+  font-size: 1.4em;
+  margin: .4em 0 0;
+}
