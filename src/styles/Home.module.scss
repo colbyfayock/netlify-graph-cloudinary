@@ -8,22 +8,29 @@
 
 }
 
-.items {
+.columns {
+  display: flex;
+}
+
+.column {
+  width: 50%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding: 0 1em;
+}
+
+.resources {
 
   list-style: none;
   padding: 0;
   margin: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 3em;
 
-  img {
-    width: 100%;
+  li {
+    margin-bottom: 2em;
   }
 
-}
+  img {
+    display: block;
+  }
 
-.itemTitle {
-  font-size: 1.4em;
-  margin: .4em 0 0;
 }

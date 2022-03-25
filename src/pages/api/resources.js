@@ -4,7 +4,6 @@ import { v2 as cloudinary } from 'cloudinary';
 export default async (req, res) => {
   const { folder } = JSON.parse(req.body)
   const secrets = await getSecrets();
-  console.log('secrets', secrets)
 
   try {
     const { cloud_name } = await fetch('https://api.cloudinary.com/v1_1/token/info', {
