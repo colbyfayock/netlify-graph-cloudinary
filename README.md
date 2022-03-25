@@ -2,5 +2,5 @@
 
 ```
 yarn install
-yarn dev
+netlify dev --graph
 ```

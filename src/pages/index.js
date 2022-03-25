@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { getSecrets } from '@netlify/functions';
 
@@ -6,7 +7,21 @@ import Container from '@components/Container';
 
 import styles from '@styles/Home.module.scss'
 
-export default function Home({ resources }) {
+export default function Home({ cloudName }) {
+  const [resources, setResources] = useState();
+
+  console.log('resources', resources)
+
+  useEffect(() => {
+    (async function run() {
+      const { data } = await fetch('/api/resources', {
+        method: 'POST',
+        body: JSON.stringify({ folder: 'netlify-plugin-cloudinary' })
+      }).then(r => r.json());
+      setResources(data?.resources);
+    })()
+  }, [])
+
   return (
     <Layout>
       <Head>
@@ -17,20 +32,17 @@ export default function Home({ resources }) {
       <Container>
         <h1 className="sr-only">Cloudinary + Netlify Graph</h1>
 
-        <h2 className={styles.heading}>Resources</h2>
+        <h2 className={styles.heading}>Resources from My Cloud</h2>
 
-        {/* <ul className={styles.items}>
-          {artists.map(artist => {
+        <div className={styles.grid}>
+          {resources?.map(({ asset_id, secure_url }) => {
             return (
-              <a key={artist.id} href={artist.external_urls.spotify} className={styles.card}>
-                {artist.images[0] && (
-                  <img width={artist.images[0].width} height={artist.images[0].height} src={artist.images[0].url} alt="" />
-                )}
-                <h2>{ artist.name }</h2>
-              </a>
-            );
+              <div key={asset_id} className={styles.card}>
+                <img src={secure_url} />
+              </div>
+            )
           })}
-        </ul> */}
+        </div>
       </Container>
     </Layout>
   )
@@ -40,10 +52,16 @@ export async function getStaticProps() {
   const secrets = await getSecrets();
 
   console.log('secrets', secrets)
+
+  const { cloud_name: cloudName } = await fetch('https://api.cloudinary.com/v1_1/token/info', {
+    headers: {
+      Authorization: `Bearer ${secrets.cloudinary.bearerToken}`
+    }
+  }).then(r => r.json());
+
   return {
     props: {
-      artists,
-      tracks
+      cloudName
     }
   }
 }
