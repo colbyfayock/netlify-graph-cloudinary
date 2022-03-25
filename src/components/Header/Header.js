@@ -1,5 +1,4 @@
 import Container from '@components/Container';
-import SpotifyLogo from '@components/SpotifyLogo';
 
 import styles from './Header.module.scss';
 
@@ -8,7 +7,7 @@ const Header = () => {
     <header className={styles.header}>
       <Container className={styles.headerContainer}>
         <p className={styles.headerTitle}>
-          <SpotifyLogo /> Re-Wrapped
+          Cloudinary + Netlify Graph
         </p>
       </Container>
     </header>
