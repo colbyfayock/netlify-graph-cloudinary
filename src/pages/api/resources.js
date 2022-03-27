@@ -5,6 +5,12 @@ export default async (req, res) => {
   const { folder } = JSON.parse(req.body)
   const secrets = await getSecrets();
 
+  if ( !secrets.cloudinary?.bearerToken ) {
+    return res.status(400).json({
+      status: 'Failed to authenticate with Cloudinary'
+    });
+  }
+
   try {
     const { cloud_name } = await fetch('https://api.cloudinary.com/v1_1/token/info', {
       headers: {
