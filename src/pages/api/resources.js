@@ -3,7 +3,7 @@ import { v2 as cloudinary } from 'cloudinary';
 
 export default async (req, res) => {
   const { folder } = JSON.parse(req.body)
-  const secrets = await getSecrets();
+  const secrets = await getSecrets(req);
 
   if ( !secrets.cloudinary?.bearerToken ) {
     return res.status(400).json({

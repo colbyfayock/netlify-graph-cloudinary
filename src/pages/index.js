@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { getSecrets } from '@netlify/functions';
+import { getSecretsForBuild } from '@netlify/functions';
 
 import Layout from '@components/Layout';
 import Container from '@components/Container';
@@ -68,7 +68,7 @@ export default function Home({ resourcesA }) {
 
 export async function getStaticProps() {
   const { v2: cloudinary } = await import('cloudinary');
-  const secrets = await getSecrets();
+  const secrets = await getSecretsForBuild();
 
   let resources;
 
