@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { getSecrets } from '@netlify/functions';
+import { getSecretsForBuild } from '@netlify/functions';
 
 import Layout from '@components/Layout';
 import Container from '@components/Container';
@@ -67,30 +67,30 @@ export default function Home({ resourcesA }) {
 }
 
 export async function getStaticProps() {
-  // const { v2: cloudinary } = await import('cloudinary');
-  // const secrets = await getSecrets();
+  const { v2: cloudinary } = await import('cloudinary');
+  const secrets = await getSecretsForBuild();
 
-  // let resources;
+  let resources;
 
-  // if ( secrets.cloudinary?.bearerToken ) {
-  //   const { cloud_name } = await fetch('https://api.cloudinary.com/v1_1/token/info', {
-  //     headers: {
-  //       Authorization: `Bearer ${secrets.cloudinary.bearerToken}`
-  //     }
-  //   }).then(r => r.json());
+  if ( secrets.cloudinary?.bearerToken ) {
+    const { cloud_name } = await fetch('https://api.cloudinary.com/v1_1/token/info', {
+      headers: {
+        Authorization: `Bearer ${secrets.cloudinary.bearerToken}`
+      }
+    }).then(r => r.json());
 
-  //   cloudinary.config({
-  //     cloud_name,
-  //     oauth_token: secrets.cloudinary.bearerToken
-  //   });
+    cloudinary.config({
+      cloud_name,
+      oauth_token: secrets.cloudinary.bearerToken
+    });
 
-  //   const data = await cloudinary.search.expression(`folder=netlify-graph-cloudinary`).execute();
-  //   resources = data?.resources;
-  // }
+    const data = await cloudinary.search.expression(`folder=netlify-graph-cloudinary`).execute();
+    resources = data?.resources;
+  }
 
   return {
     props: {
-      resourcesA: []
+      resourcesA: resources
     }
   }
 }
